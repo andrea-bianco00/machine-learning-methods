@@ -16,8 +16,8 @@ Each has `E[UUᵀ]=I`, so the centered two-point estimator is unbiased for the q
 
 ```bash
 python -m pip install -r requirements.txt
-python -m unittest discover -p "test_*.py" -v
-python q5_sensitivity.py --budget 30000 --repeats 5 --output results
+python -m unittest discover -s tests -p "test_*.py" -v
+python -m src.q5_sensitivity --budget 30000 --repeats 5 --output results
 ```
 
 Outputs: `results/q5_sensitivity.csv` (individual trajectories), `results/q5_sensitivity.json` (summary and settings), `results/q5_sensitivity.png` (six-panel log-scale objective-gap plot, with prominent across-seed median curves and faint individual runs). The JSON contains medians, minima and maxima, not just averages.
@@ -30,4 +30,4 @@ Do not claim the best observed configuration is universally optimal. There are o
 
 ## Limitations
 
-The budget counts component-function-value calls used for optimization, excluding diagnostics. No wall-clock normalization, tuning on independent validation data or confidence interval is provided. This is an explanatory extension, not a comprehensive optimizer benchmark. Five additional sensitivity tests cover direction covariance, quadratic finite differences, reproducibility, budget accounting and input validation. The [Q1–Q6 verification workflow](.github/workflows/q1.yml) reruns them. The successful Q1–Q6 workflow execution was confirmed on commit `761d209` (run #27); check the [Actions page](https://github.com/andrea-bianco00/machine-learning-methods/actions) for newer runs.
+The budget counts component-function-value calls used for optimization, excluding diagnostics. No wall-clock normalization, tuning on independent validation data or confidence interval is provided. This is an explanatory extension, not a comprehensive optimizer benchmark. Five additional sensitivity tests cover direction covariance, quadratic finite differences, reproducibility, budget accounting and input validation. The [Q1–Q6 verification workflow](../.github/workflows/q1.yml) reruns them. The successful Q1–Q6 workflow execution was confirmed on commit `761d209` (run #27); check the [Actions page](https://github.com/andrea-bianco00/machine-learning-methods/actions) for newer runs.
