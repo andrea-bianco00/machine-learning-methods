@@ -191,19 +191,36 @@ def save(result,curves,output):
     with (out/"q7_optimization.csv").open("w",newline="",encoding="utf8") as f:
         w=csv.DictWriter(f,fieldnames=["run","component_loss_calls","train_logloss"])
         w.writeheader();w.writerows(curves)
-    fig,axes=plt.subplots(1,2,figsize=(12,5))
-    for run in range(len(result["zsgd_runs"])):
+    # Separate scales: optimization, discrimination and operating-point errors.
+    # ROC-AUC is deliberately zoomed to make small differences visible; label it.
+    fig,axes=plt.subplots(1,3,figsize=(16,5.2))
+    for run,record in enumerate(result["zsgd_runs"]):
         r=[row for row in curves if row["run"]==run]
         axes[0].plot([v["component_loss_calls"] for v in r],
-                     [v["train_logloss"] for v in r],label=f"ZSGD seed {run+1}")
+                     [v["train_logloss"] for v in r],
+                     label=f"ZSGD seed {record['seed']}")
     axes[0].set(xlabel="Component-loss evaluations",ylabel="Training log-loss",
                 title="ZSGD optimization")
-    axes[0].legend();axes[0].grid(alpha=.25)
-    names=["Standard LR"]+[f"ZSGD {i+1}" for i in range(len(result["zsgd_runs"]))]
+    axes[0].legend(fontsize=8);axes[0].grid(alpha=.25)
+    names=["Standard LR"]+[f"ZSGD {r['seed']}" for r in result["zsgd_runs"]]
     aucs=[result["baseline"]["test"]["roc_auc"]]+[r["test"]["roc_auc"] for r in result["zsgd_runs"]]
-    axes[1].bar(names,aucs)
-    axes[1].set(ylabel="Held-out ROC-AUC",title="Test discrimination",ylim=(0,1))
-    axes[1].tick_params(axis="x",labelrotation=30)
+    fprs=[result["baseline"]["test"]["fpr_hadron_to_gamma"]]+[
+          r["test"]["fpr_hadron_to_gamma"] for r in result["zsgd_runs"]]
+    positions=np.arange(len(names))
+    axes[1].scatter(positions,aucs,s=75,zorder=3)
+    axes[1].axhline(aucs[0],ls="--",color="gray",alpha=.7,label="Baseline")
+    margin=max(.005,(max(aucs)-min(aucs))*.45)
+    axes[1].set_ylim(max(0.,min(aucs)-margin),min(1.,max(aucs)+margin))
+    axes[1].set(xlabel="Model",ylabel="Held-out ROC-AUC",
+                title="Discrimination (zoomed y-axis)")
+    axes[1].set_xticks(positions,names,rotation=35,ha="right")
+    axes[1].grid(axis="y",alpha=.25)
+    axes[2].bar(positions,fprs)
+    axes[2].set(xlabel="Model",ylabel="Hadron → gamma false-positive rate",
+                title="False positives at threshold 0.5",ylim=(0,.55))
+    axes[2].set_xticks(positions,names,rotation=35,ha="right")
+    axes[2].grid(axis="y",alpha=.25)
+    fig.suptitle("Q7: UCI MAGIC — standard logistic regression vs ZSGD")
     fig.tight_layout();fig.savefig(out/"q7_comparison.png",dpi=180);plt.close(fig)
 
 
