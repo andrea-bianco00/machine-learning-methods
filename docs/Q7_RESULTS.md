@@ -31,14 +31,14 @@ From the repository root with Python 3.11:
 
 ```bash
 python -m pip install -r requirements.txt
-python -m unittest discover -p 'test_*.py' -v
-python q7.py --download --budget 200000 --repeats 3 --seed 42 --output results
+python -m unittest discover -s tests -p 'test_*.py' -v
+python -m src.q7 --download --budget 200000 --repeats 3 --seed 42 --output results
 ```
 
 Or supply an official local file:
 
 ```bash
-python q7.py --data /path/to/magic04.data --budget 200000 --repeats 3 --seed 42 --output results
+python -m src.q7 --data /path/to/magic04.data --budget 200000 --repeats 3 --seed 42 --output results
 ```
 
 Outputs:
