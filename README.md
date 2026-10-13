@@ -20,6 +20,8 @@ A six-question university project exploring statistical risk, regression under m
 
 The assignment's optional Q7 classification extension is not implemented. The main project covers **Q1–Q6**.
 
+**[View the figure index and download instructions](FIGURES_AND_RESULTS.md)** — plots, numerical artifacts, interpretation notes and full reproduction commands.
+
 ## Key findings
 
 - **Risk definitions matter:** Q1 distinguishes in-design excess prediction risk from squared coefficient error; Q3 distinguishes training error, model-approximation error and conditional population risk.
@@ -66,7 +68,7 @@ The original notebook acknowledged AI assistance. This reconstructed repository 
 ├── q1.py, q1_sweep.py, q2.py, q3.py, q4.py, q5.py, q5_sensitivity.py, q6.py
 ├── test_q1.py ... test_q6.py, test_q5_sensitivity.py
 ├── Q1_RESULTS.md ... Q6_RESULTS.md, Q5_SENSITIVITY.md
-├── METHODOLOGY_AUDIT.md
+├── METHODOLOGY_AUDIT.md, FIGURES_AND_RESULTS.md
 ├── requirements.txt
 └── .github/workflows/q1.yml
 ```
