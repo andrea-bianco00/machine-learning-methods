@@ -1,4 +1,4 @@
-name: Q1–Q5 verification
+name: Q1–Q6 verification
 on:
   push:
     branches: [main]
@@ -31,10 +31,12 @@ jobs:
         run: python q5.py --budget 30000 --repeats 5 --seed 42 --h 0.01 --output results
       - name: Reproduce Q5 sensitivity extension
         run: python q5_sensitivity.py --budget 30000 --repeats 5 --output results
+      - name: Reproduce Q6 flexible vs linear regression
+        run: python q6.py --budget 120000 --repeats 5 --step-scale 0.03 --output results
       - name: Upload experiment artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: q1-q5-experiments
+          name: q1-q6-experiments
           path: |
             results/q1.json
             results/q1_sweep.csv
@@ -53,3 +55,7 @@ jobs:
             results/q5_sensitivity.json
             results/q5_sensitivity.csv
             results/q5_sensitivity.png
+            results/q6.json
+            results/q6_runs.csv
+            results/q6_trajectories.csv
+            results/q6_comparison.png
