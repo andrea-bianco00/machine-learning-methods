@@ -10,6 +10,8 @@ The code here is a **later, reproducible reconstruction** of the assignment, rat
 
 ## The seven questions
 
+The [original assignment overview](docs/ASSIGNMENT_OVERVIEW.md) summarizes the seven questions from the ENSAI course handout in my own words. The original handout itself is not redistributed here.
+
 | Question | What I investigated | What the experiment shows |
 | --- | --- | --- |
 | [Q1](docs/Q1_RESULTS.md) | How do sample size, dimension and noise affect OLS excess risk? | The expected **in-design** risk follows `σ²(p+1)/n`; it is not the same as squared coefficient error. |
