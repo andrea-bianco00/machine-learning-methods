@@ -41,4 +41,4 @@ The six irrelevant features' sample correlations lie approximately between -0.02
 
 ## Verification
 
-Five Q2 unit tests cover reproducible data generation, invalid inputs, the noiseless structural identity, analytical moments, and large-sample empirical agreement. The [Q1–Q6 verification workflow](.github/workflows/q1.yml) reruns the suite and reproduces the plots. The successful Q1–Q6 workflow execution was confirmed on commit `761d209` (run #27); check the [Actions page](../../actions) for the status of later commits.
+Five Q2 unit tests cover reproducible data generation, invalid inputs, the noiseless structural identity, analytical moments, and large-sample empirical agreement. The [Q1–Q6 verification workflow](.github/workflows/q1.yml) reruns the suite and reproduces the plots. The successful Q1–Q6 workflow execution was confirmed on commit `761d209` (run #27); check the [Actions page](https://github.com/andrea-bianco00/machine-learning-methods/actions) for the status of later commits.
