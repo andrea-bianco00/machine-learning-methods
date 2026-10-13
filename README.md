@@ -1,44 +1,78 @@
 # Statistical Learning and Optimization Methods
 
-**An ENSAI university computer-class project in machine learning (2025).**
+**ENSAI Machine Learning Computer Class (2025) — reproducible Python reconstruction and methodological audit**
 
-This repository documents a six-question academic assignment combining statistical learning theory, simulated regression, and first- and zeroth-order optimization. It is being reorganized from the original submitted Jupyter notebook into a readable, testable and reproducible research-style project.
+A six-question university project exploring statistical risk, regression under model misspecification, and first- versus zeroth-order optimization. The original assignment and notebook motivated this repository; the cleaned Python implementations, corrections, tests, and sensitivity experiments are **subsequent reconstruction work**, not a verbatim copy of the original submission.
 
-> **Status: reconstruction and methodological audit in progress.** The original notebook has not yet been independently executed end-to-end in a clean environment. Results and code should not be treated as independently reproduced until that verification is complete.
+[![Q1–Q6 verification](https://github.com/andrea-bianco00/machine-learning-methods/actions/workflows/q1.yml/badge.svg)](https://github.com/andrea-bianco00/machine-learning-methods/actions/workflows/q1.yml)
 
-## Questions addressed
+## Project at a glance
 
-| Question | Focus |
-| --- | --- |
-| Q1 | Gaussian-design linear regression and expected excess risk |
-| Q2 | Simulated nonlinear data-generating process and feature-response relationships |
-| Q3 | Ordinary least squares and empirical risk across sample sizes |
-| Q4 | Full-batch gradient descent versus stochastic gradient descent |
-| Q5 | Zeroth-order gradient estimation and stochastic variants |
-| Q6 | Flexible nonlinear model, optimization and independent test-risk estimation |
+| Question | Topic | Reproduction and analysis |
+| --- | --- | --- |
+| Q1 | OLS in-design excess prediction risk | [Results and derivation](Q1_RESULTS.md) |
+| Q2 | Gaussian features and a nonlinear ReLU signal | [Results](Q2_RESULTS.md) |
+| Q3 | Linear approximation and population prediction risk | [Results](Q3_RESULTS.md) |
+| Q4 | Full-batch GD versus stochastic GD | [Results](Q4_RESULTS.md) |
+| Q5 | Two-point zeroth-order GD and SGD | [Baseline and corrections](Q5_RESULTS.md) |
+| Q5 extension | Direction distributions and step-size sensitivity | [Exploratory analysis](Q5_SENSITIVITY.md) |
+| Q6 | Flexible ReLU regression, ZGD/ZSGD and independent test risk | [Results](Q6_RESULTS.md) |
 
-The assignment also offered an optional Q7 classification extension, which is **not included** in the provided main notebook.
+The assignment's optional Q7 classification extension is not implemented. The main project covers **Q1–Q6**.
 
-## What this project aims to demonstrate
+## Key findings
 
-- Careful distinction between empirical and generalization risk.
-- Controlled numerical experiments, with reproducible random seeds and clear estimands.
-- Correct algorithm implementations and transparent accounting of gradient/function evaluations.
-- Fair comparisons across optimization methods and explicit discussion of limitations.
-- Readable explanations of each university question, with code and plots that can be checked independently.
+- **Risk definitions matter:** Q1 distinguishes in-design excess prediction risk from squared coefficient error; Q3 distinguishes training error, model-approximation error and conditional population risk.
+- **Optimization budgets matter:** Q4 counts component-gradient evaluations. Q5–Q6 count component-function evaluations. These are *different oracle types*, not directly equivalent CPU time.
+- **Unbiasedness is not stability:** Correctly scaled zeroth-order gradient estimates can have large variance; the Q5 extension isolates the effects of direction distribution and learning-rate prefactor.
+- **Model flexibility matters:** On the simulated Q6 data with a ReLU signal, the flexible model trained by ZSGD attains lower held-out mean squared error than linear ZSGD under the specified budget. These are descriptive results for a controlled simulation, not universal performance claims.
 
-## Provenance
+## Reproduce from scratch
 
-The source material is Andrea Bianco's ENSAI *Machine Learning — Computer Class* assignment and original 2025 notebook. The original notebook acknowledges the use of AI as a supporting tool. The repository's cleaned implementation, tests and documentation are subsequent reconstruction work; any corrections will be distinguished from the original submission.
+Requires **Python 3.11**. From the repository root:
 
-## Reproduction status
+```bash
+python -m pip install -r requirements.txt
+python -m unittest discover -p "test_*.py" -v
 
-The original notebook contains environment-specific visualization and parallel-processing code and shared state between questions. Before publishing a reproduction procedure, we will:
+python q1.py --output results/q1.json
+python q1_sweep.py --output results --repetitions 400 --seed 42
+python q2.py --n 3000 --p 8 --noise-variance 0.5 --seed 42
+python q3.py --seed 42 --noise-sd 0.5 --output results
+python q4.py --budget 30000 --repeats 5 --data-seed 42 --sgd-seed 100 --output results
+python q5.py --budget 30000 --repeats 5 --seed 42 --h 0.01 --output results
+python q5_sensitivity.py --budget 30000 --repeats 5 --output results
+python q6.py --budget 120000 --repeats 5 --step-scale 0.03 --output results
+```
 
-1. Audit the mathematics and original results question by question.
-2. Extract independent Python modules and unit tests.
-3. Define pinned dependencies and deterministic experiment configurations where feasible.
-4. Execute the full pipeline from a clean environment and save machine-generated results.
-5. Document any numerical variability and remaining limitations.
+All experiments use synthetic data, fixed random seeds and pinned dependencies; no external datasets or notebook execution order are required. Outputs are generated under `results/` (JSON/CSV/PNG). The GitHub Actions workflow [Q1–Q6 verification](.github/workflows/q1.yml) runs unit tests and the complete experiment suite on pushes and pull requests and uploads generated artifacts. **A passing workflow establishes successful execution of these tests and commands, not mathematical proof or exhaustive reproducibility across every platform.**
 
-**No verified end-to-end reproduction or final benchmark results are claimed at this stage.**
+## Methodological transparency
+
+The original notebook and the reconstructed experiments should not be conflated. Important choices and corrections are documented alongside each question:
+
+1. Q1's original code measured squared parameter error, whereas the assignment's formula concerns in-design prediction risk. See [methodology audit](METHODOLOGY_AUDIT.md).
+2. Q2 uses noise **variance 0.5** as specified in its assignment. Q3–Q6 preserve the original notebook's noise **standard deviation 0.5** (variance 0.25). They are intentionally different experimental settings.
+3. Q5 uses the mathematically correct centered difference denominator **2h** and directions satisfying `E[UUᵀ]=I`. The handout's expression uses `h`, producing a factor-of-two discrepancy.
+4. Q5's sensitivity analysis is an **explicitly labeled post-assignment extension**.
+5. Q6 uses a declared step-size schedule and initialization, with independent held-out data and component-function-evaluation budgets.
+
+The original notebook acknowledged AI assistance. This reconstructed repository has also been developed with AI assistance and reviewed through mathematical checks, unit tests, and GitHub Actions. The project should be assessed by its transparent methods and executable results, not by claims of independent authorship of every line.
+
+## Repository structure
+
+```text
+.
+├── q1.py, q1_sweep.py, q2.py, q3.py, q4.py, q5.py, q5_sensitivity.py, q6.py
+├── test_q1.py ... test_q6.py, test_q5_sensitivity.py
+├── Q1_RESULTS.md ... Q6_RESULTS.md, Q5_SENSITIVITY.md
+├── METHODOLOGY_AUDIT.md
+├── requirements.txt
+└── .github/workflows/q1.yml
+```
+
+The current flat layout is intentional: scripts can be run directly from the repository root without package installation. A future package-style reorganization would require coordinated import, CLI, and CI updates.
+
+## Scope and limitations
+
+Experiments are synthetic, primarily use fixed datasets and small numbers of stochastic repetitions, and generally report training objectives or held-out MSE rather than deployment metrics. Optimization-oracle budgets exclude diagnostic full-loss evaluations and do not normalize wall-clock runtime. Hyperparameters are illustrative, not the result of a broad validation-based search. Consult the question-specific reports for details.
