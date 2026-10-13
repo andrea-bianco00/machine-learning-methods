@@ -46,12 +46,12 @@ These numbers describe **one data realization** and five stochastic index sequen
 
 ```bash
 python -m pip install -r requirements.txt
-python -m unittest discover -p "test_*.py" -v
-python q4.py --budget 30000 --repeats 5 --data-seed 42 --sgd-seed 100 --output results
+python -m unittest discover -s tests -p "test_*.py" -v
+python -m src.q4 --budget 30000 --repeats 5 --data-seed 42 --sgd-seed 100 --output results
 ```
 
 Produces `results/q4.json`, `results/q4.csv`, and `results/q4_convergence.png`. The optimization algorithms use only NumPy; Matplotlib is used exclusively for plotting. No Dash server or multiprocessing is required.
 
 ## Validation and caveats
 
-Six Q4 tests cover component/full gradient agreement, a central finite-difference check, budget accounting, fixed-seed reproducibility, the OLS lower bound, and input validation. The [Q1–Q6 verification workflow](.github/workflows/q1.yml) reruns the tests and regenerates the plots. The successful Q1–Q6 workflow execution was confirmed on commit `761d209` (run #27); check the [Actions page](https://github.com/andrea-bianco00/machine-learning-methods/actions) for newer runs. All objective curves are **training objectives**, not out-of-sample risk. A full-batch gradient costs n component evaluations and a stochastic gradient costs one; the budget does not include diagnostic full-loss evaluations or Python overhead. Q5 zero-order function-evaluation budgets require a different accounting convention.
+Six Q4 tests cover component/full gradient agreement, a central finite-difference check, budget accounting, fixed-seed reproducibility, the OLS lower bound, and input validation. The [Q1–Q6 verification workflow](../.github/workflows/q1.yml) reruns the tests and regenerates the plots. The successful Q1–Q6 workflow execution was confirmed on commit `761d209` (run #27); check the [Actions page](https://github.com/andrea-bianco00/machine-learning-methods/actions) for newer runs. All objective curves are **training objectives**, not out-of-sample risk. A full-batch gradient costs n component evaluations and a stochastic gradient costs one; the budget does not include diagnostic full-loss evaluations or Python overhead. Q5 zero-order function-evaluation budgets require a different accounting convention.
