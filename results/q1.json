@@ -1,0 +1,14 @@
+{
+  "n": 200,
+  "p": 8,
+  "sigma": 1,
+  "repetitions": 1000,
+  "seed": 42,
+  "theoretical_risk": 0.045,
+  "mean_in_design_excess_risk": 0.04546727713447846,
+  "mc_standard_error": 0.0006810498019287772,
+  "ci95_normal_approx": [
+    0.04413241952269805,
+    0.04680213474625886
+  ]
+}
