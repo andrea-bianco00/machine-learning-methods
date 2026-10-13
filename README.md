@@ -64,7 +64,7 @@ README.md               Project overview
 requirements.txt        Pinned dependencies
 ```
 
-The `results/` directory is created when experiments run; generated files are not committed.
+The `results/` directory holds generated outputs. An early Q1 JSON result is versioned in the repository; the complete current set of JSON, CSV and PNG outputs is available from successful GitHub Actions run artifacts or can be regenerated locally.
 
 ## Decisions and limitations
 
