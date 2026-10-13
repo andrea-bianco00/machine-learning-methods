@@ -1,4 +1,4 @@
-name: Q1–Q6 verification
+name: Q1–Q7 verification
 on:
   push:
     branches: [main]
@@ -33,10 +33,12 @@ jobs:
         run: python q5_sensitivity.py --budget 30000 --repeats 5 --output results
       - name: Reproduce Q6 flexible vs linear regression
         run: python q6.py --budget 120000 --repeats 5 --step-scale 0.03 --output results
+      - name: Reproduce Q7 on official UCI MAGIC dataset
+        run: python q7.py --download --budget 200000 --repeats 3 --seed 42 --output results
       - name: Upload experiment artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: q1-q6-experiments
+          name: q1-q7-experiments
           path: |
             results/q1.json
             results/q1_sweep.csv
@@ -59,3 +61,6 @@ jobs:
             results/q6_runs.csv
             results/q6_trajectories.csv
             results/q6_comparison.png
+            results/q7.json
+            results/q7_optimization.csv
+            results/q7_comparison.png
