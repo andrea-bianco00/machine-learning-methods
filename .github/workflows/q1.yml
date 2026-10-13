@@ -1,4 +1,4 @@
-name: Q1–Q4 verification
+name: Q1–Q5 verification
 on:
   push:
     branches: [main]
@@ -27,10 +27,14 @@ jobs:
         run: python q3.py --seed 42 --noise-sd 0.5 --output results
       - name: Reproduce Q4
         run: python q4.py --budget 30000 --repeats 5 --data-seed 42 --sgd-seed 100 --output results
+      - name: Reproduce Q5 baseline
+        run: python q5.py --budget 30000 --repeats 5 --seed 42 --h 0.01 --output results
+      - name: Reproduce Q5 sensitivity extension
+        run: python q5_sensitivity.py --budget 30000 --repeats 5 --output results
       - name: Upload experiment artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: q1-q4-experiments
+          name: q1-q5-experiments
           path: |
             results/q1.json
             results/q1_sweep.csv
@@ -43,3 +47,9 @@ jobs:
             results/q4.json
             results/q4.csv
             results/q4_*.png
+            results/q5.json
+            results/q5.csv
+            results/q5_convergence.png
+            results/q5_sensitivity.json
+            results/q5_sensitivity.csv
+            results/q5_sensitivity.png
