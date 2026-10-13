@@ -20,7 +20,7 @@ python -m unittest discover -p "test_*.py" -v
 python q5_sensitivity.py --budget 30000 --repeats 5 --output results
 ```
 
-Outputs: `results/q5_sensitivity.csv` (individual trajectories), `results/q5_sensitivity.json` (summary and settings), `results/q5_sensitivity.png` (six-panel log-scale objective-gap plot). The JSON contains medians, minima and maxima, not just averages.
+Outputs: `results/q5_sensitivity.csv` (individual trajectories), `results/q5_sensitivity.json` (summary and settings), `results/q5_sensitivity.png` (six-panel log-scale objective-gap plot, with prominent across-seed median curves and faint individual runs). The JSON contains medians, minima and maxima, not just averages.
 
 ## Interpretation
 
