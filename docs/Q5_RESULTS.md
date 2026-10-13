@@ -33,8 +33,8 @@ Python 3.11, from repository root:
 
 ```bash
 python -m pip install -r requirements.txt
-python -m unittest discover -p "test_*.py" -v
-python q5.py --budget 30000 --repeats 5 --seed 42 --h 0.01 --output results
+python -m unittest discover -s tests -p "test_*.py" -v
+python -m src.q5 --budget 30000 --repeats 5 --seed 42 --h 0.01 --output results
 ```
 
 Outputs: `results/q5.json`, `results/q5.csv`, `results/q5_convergence.png`. The JSON records seeds, budgets, per-run final objectives and the OLS minimum. The plot uses a logarithmic objective scale so unstable trajectories are not hidden.
@@ -47,4 +47,4 @@ With the prescribed aggressive `1/k` schedule, the corrected zeroth-order estima
 
 See [Q5_SENSITIVITY.md](Q5_SENSITIVITY.md). That follow-up varies directions and step-size prefactors **outside the original assignment** and is not presented as part of the original university submission.
 
-Seven Q5 tests cover the quadratic two-point identity, stochastic estimator, direction covariance, exact budget accounting, reproducibility, OLS lower bound and invalid inputs. The [Q1–Q6 verification workflow](.github/workflows/q1.yml) reruns these tests and reproduces the figures. The successful Q1–Q6 workflow execution was confirmed on commit `761d209` (run #27); check the [Actions page](https://github.com/andrea-bianco00/machine-learning-methods/actions) for newer runs.
+Seven Q5 tests cover the quadratic two-point identity, stochastic estimator, direction covariance, exact budget accounting, reproducibility, OLS lower bound and invalid inputs. The [Q1–Q6 verification workflow](../.github/workflows/q1.yml) reruns these tests and reproduces the figures. The successful Q1–Q6 workflow execution was confirmed on commit `761d209` (run #27); check the [Actions page](https://github.com/andrea-bianco00/machine-learning-methods/actions) for newer runs.
