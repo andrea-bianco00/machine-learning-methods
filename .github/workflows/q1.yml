@@ -1,4 +1,4 @@
-name: Q1 and Q2 verification
+name: Q1–Q3 verification
 on:
   push:
     branches: [main]
@@ -23,13 +23,18 @@ jobs:
           python q1_sweep.py --output results --repetitions 400 --seed 42
       - name: Reproduce Q2
         run: python q2.py --n 3000 --p 8 --noise-variance 0.5 --seed 42
+      - name: Reproduce Q3
+        run: python q3.py --seed 42 --noise-sd 0.5 --output results
       - name: Upload experiment artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: q1-q2-experiments
+          name: q1-q3-experiments
           path: |
             results/q1.json
             results/q1_sweep.csv
             results/q1_*.png
             results/q2.json
             results/q2_signals.png
+            results/q3.json
+            results/q3.csv
+            results/q3_*.png
