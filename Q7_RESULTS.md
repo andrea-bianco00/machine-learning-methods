@@ -1,6 +1,6 @@
 # Q7 (bonus) — MAGIC Gamma Telescope classification
 
-**Status:** implementation and tests committed; **real-dataset benchmark metrics must be read from the latest successful GitHub Actions artifact**. No accuracy, ROC-AUC or confusion matrix is invented in this document.
+**Status:** Q7 reproduced successfully in GitHub Actions run #51. The numerical results below were verified against the uploaded `q1-q7-experiments.zip` artifact from that run, including `q7.json`, `q7_optimization.csv`, and `q7_comparison.png`. They are not hypothetical benchmark scores.
 
 ## Exact assignment scope
 
@@ -47,6 +47,26 @@ Outputs:
 - `results/q7_comparison.png`: optimization trajectories and held-out ROC-AUC comparison
 
 All metrics must be **generated from the real UCI data**, not from the synthetic fixtures in unit tests. The automated workflow downloads the dataset during the Q7 experiment, so a temporary UCI outage can cause the real-data step to fail. The source URL and SHA-256 in the JSON permit provenance checking.
+
+## Verified real-data results (GitHub Actions run #51)
+
+The uploaded artifact reports **19,020 observations** (12,332 gamma and 6,688 hadron) with 11,412 training, 3,804 validation, and 3,804 held-out test observations. Its raw-data SHA-256 is `e9314b7ebd4b4b59a3b3d65f7316663963777b16a46786877651dbbaa640b36a`.
+
+All figures below are from the **same held-out test set**, using the fixed 0.5 classification threshold. ZSGD results are reported individually, not selectively choosing the best run.
+
+| Model | Accuracy | ROC-AUC | F1 (gamma) | Hadron → gamma false-positive rate |
+| --- | ---: | ---: | ---: | ---: |
+| Standard logistic regression | 0.783123 | 0.830492 | 0.843780 | 0.438714 |
+| ZSGD seed 142 | 0.778917 | 0.826648 | 0.840508 | 0.441704 |
+| ZSGD seed 143 | 0.778654 | 0.829815 | 0.840651 | 0.446188 |
+| ZSGD seed 144 | 0.777340 | 0.833424 | 0.839856 | 0.449925 |
+| **ZSGD median across three seeds** | **0.778654** | **0.829815** | **0.840508** | **0.446188** |
+
+The standard logistic regression test confusion matrix (rows: true hadron, true gamma; columns: predicted hadron, predicted gamma) is `[[751,587],[238,2228]]`. Thus **587 of 1,338 hadrons** in the held-out set are incorrectly classified as gamma at the 0.5 threshold. The gamma recall is **0.903487**. At a more restrictive **5% hadron FPR cap**, the baseline achieves gamma TPR **0.305353** on the test ROC curve; this is a different operating point, not the 0.5-threshold result.
+
+The ZSGD median ROC-AUC is **0.000676 below** the standard baseline (0.829815 vs 0.830492). One ZSGD run exceeds the baseline ROC-AUC slightly, but the three runs are not evidence of systematic superiority. The standard model is marginally better on test accuracy, F1, and hadron false-positive rate at threshold 0.5. ZSGD used exactly **200,000 component-loss calls (100,000 two-point updates)** in each run, with no unused budget.
+
+**Interpretation:** The two approaches give similar held-out discrimination on this fixed split. This supports the feasibility of derivative-free stochastic training for a logistic classifier, not an efficiency advantage over L-BFGS. No repeated data splits, confidence intervals, runtime-matched comparisons or deployment calibration are available.
 
 ## Caveats
 
