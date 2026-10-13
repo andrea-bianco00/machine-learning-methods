@@ -78,14 +78,29 @@ def save(rows, metadata, output):
         for j,dist in enumerate(metadata['directions']):
             ax=axes[i,j]
             for scale in metadata['scales']:
+                runs=[]
                 for k in range(metadata['repeats']):
                     points=[r for r in rows if r['method']==method and r['direction']==dist and r['scale']==scale and r['run']==k]
+                    runs.append(points)
+                    # Individual stochastic trajectories remain visible but subdued.
                     ax.plot([r['component_value_calls'] for r in points],
                             [max(r['objective_gap'],1e-14) for r in points],
-                            label=f'c={scale:g}' if k==0 else None,alpha=.8 if k==0 else .2)
+                            color={1.:'tab:blue',.1:'tab:orange',.01:'tab:green'}[scale],
+                            linewidth=.7,alpha=.18)
+                # Highlight the median trajectory across seeds at matching checkpoints.
+                # No smoothing or clipping of extreme outcomes is performed.
+                budgets=sorted(set(p['component_value_calls'] for run in runs for p in run))
+                median_gap=[]
+                for calls in budgets:
+                    vals=[p['objective_gap'] for run in runs for p in run
+                          if p['component_value_calls']==calls]
+                    median_gap.append(max(float(np.median(vals)),1e-14))
+                ax.plot(budgets,median_gap,linewidth=2.1,
+                        color={1.:'tab:blue',.1:'tab:orange',.01:'tab:green'}[scale],
+                        label=f'c={scale:g} median')
             ax.set_yscale('log');ax.set_title(f'{method.upper()} — {dist}')
-            ax.set_xlabel('Component-function-value calls');ax.set_ylabel('Training objective gap to OLS')
-            ax.grid(alpha=.2);ax.legend()
+            ax.set_xlabel('Component-function-value calls');ax.set_ylabel('Objective gap to OLS (log scale)')
+            ax.grid(alpha=.2);ax.legend(fontsize=8)
     fig.suptitle('Q5 exploratory extension: direction distribution and step-size prefactor')
     fig.tight_layout();fig.savefig(output/'q5_sensitivity.png',dpi=160);plt.close(fig)
 
