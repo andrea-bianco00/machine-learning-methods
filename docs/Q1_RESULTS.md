@@ -10,9 +10,9 @@ Use Python 3.11 and install the pinned dependencies:
 
 ```bash
 python -m pip install -r requirements.txt
-python -m unittest discover -p "test_*.py" -v
-python q1.py --output results/q1.json
-python q1_sweep.py --output results --repetitions 400 --seed 42
+python -m unittest discover -s tests -p "test_*.py" -v
+python -m src.q1 --output results/q1.json
+python -m src.q1_sweep --output results --repetitions 400 --seed 42
 ```
 
 No external dataset, Dash server or manual notebook cell ordering is required. The sweep generates three PNG plots and a CSV in `results/`. GitHub Actions runs the tests and sweep and uploads the plots as build artifacts. **Passing CI verifies the automated tests and reproduction commands, not the mathematical correctness of the original notebook or every scientific claim.**
