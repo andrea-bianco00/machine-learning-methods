@@ -15,7 +15,7 @@ python q1.py --output results/q1.json
 python q1_sweep.py --output results --repetitions 400 --seed 42
 ```
 
-No external dataset, Dash server or manual notebook cell ordering is required. The sweep generates three PNG plots and a CSV in `results/`. GitHub Actions runs the tests and sweep and uploads the plots as build artifacts. **Passing CI verifies these Q1 checks, not the entire original assignment.**
+No external dataset, Dash server or manual notebook cell ordering is required. The sweep generates three PNG plots and a CSV in `results/`. GitHub Actions runs the tests and sweep and uploads the plots as build artifacts. **Passing CI verifies the automated tests and reproduction commands, not the mathematical correctness of the original notebook or every scientific claim.**
 
 ## Experimental design
 
