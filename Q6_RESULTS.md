@@ -67,7 +67,7 @@ Outputs:
 - `results/q6_trajectories.csv` — optimization checkpoints
 - `results/q6_comparison.png` — training convergence and held-out risk across seeds
 
-Eight Q6 tests cover the data-generating process, the linear special case, finite differences, direction covariance, budget accounting, reproducibility, held-out sample independence and invalid inputs. The [Q1–Q6 verification workflow](.github/workflows/q1.yml) reruns the tests and generates the reported artifacts. The successful Q1–Q6 workflow execution was confirmed on commit `761d209` (run #27); check the [Actions page](../../actions) for newer runs.
+Eight Q6 tests cover the data-generating process, the linear special case, finite differences, direction covariance, budget accounting, reproducibility, held-out sample independence and invalid inputs. The [Q1–Q6 verification workflow](.github/workflows/q1.yml) reruns the tests and generates the reported artifacts. The successful Q1–Q6 workflow execution was confirmed on commit `761d209` (run #27); check the [Actions page](https://github.com/andrea-bianco00/machine-learning-methods/actions) for newer runs.
 
 ## Limitations
 
