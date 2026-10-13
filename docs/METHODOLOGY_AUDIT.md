@@ -1,6 +1,6 @@
 # Methodology audit — Q1: expected excess risk
 
-**Status:** Q1's source-level audit, corrected simulation, tests and automated reproduction are implemented. The successful Q1–Q6 GitHub Actions run was confirmed at commit `761d209` (run #27). This document distinguishes the original notebook's derivation from the quantity actually computed in its code.
+**Status:** Q1's source-level audit, corrected simulation, tests and automated reproduction are implemented. The Q1–Q7 GitHub Actions workflow passed after the repository reorganization (run #127, commit `b2de0fe`). This document distinguishes the original notebook's derivation from the quantity actually computed in its code.
 
 ## Assignment
 
@@ -61,4 +61,4 @@ The Q1 Monte Carlo sweep compares the sample mean of the corrected in-design qua
 
 ## Provenance and verification
 
-This audit is based on the original `Computer Class Andrea Bianco.ipynb` (Q1 theory and code) and the ENSAI assignment. The original notebook and this subsequently reconstructed implementation are different artifacts. The corrected simulation is now executable with `q1.py` and `q1_sweep.py`; the [Q1–Q6 workflow](.github/workflows/q1.yml) reproduces its outputs and uploads figures and CSV/JSON as build artifacts. The passing run at commit `761d209` establishes that the automated checks executed successfully, not that every original-notebook claim has been independently proven.
+This audit is based on the original `Computer Class Andrea Bianco.ipynb` (Q1 theory and code) and the ENSAI assignment. The original notebook and this subsequently reconstructed implementation are different artifacts. The corrected simulation is executable from the repository root with `python -m src.q1` and `python -m src.q1_sweep`; the [Q1–Q7 workflow](../.github/workflows/q1.yml) reproduces the outputs and uploads figures and CSV/JSON as build artifacts. The successful run #127 at commit `b2de0fe` establishes that the defined automated checks executed successfully, not that every original-notebook claim has been independently proven.
