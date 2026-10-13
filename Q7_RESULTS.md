@@ -44,7 +44,7 @@ python q7.py --data /path/to/magic04.data --budget 200000 --repeats 3 --seed 42 
 Outputs:
 - `results/q7.json`: dataset SHA-256, split counts, settings, baseline and per-seed ZSGD metrics
 - `results/q7_optimization.csv`: full training-log-loss checkpoints, with oracle calls
-- `results/q7_comparison.png`: optimization trajectories and held-out ROC-AUC comparison
+- `results/q7_comparison.png`: optimization trajectories, held-out ROC-AUC (explicitly zoomed y-axis), and hadron-to-gamma false-positive rates at the fixed 0.5 threshold
 
 All metrics must be **generated from the real UCI data**, not from the synthetic fixtures in unit tests. The automated workflow downloads the dataset during the Q7 experiment, so a temporary UCI outage can cause the real-data step to fail. The source URL and SHA-256 in the JSON permit provenance checking.
 
