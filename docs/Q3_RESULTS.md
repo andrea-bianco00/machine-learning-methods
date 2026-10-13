@@ -32,8 +32,8 @@ From the repository root with Python 3.11:
 
 ```bash
 python -m pip install -r requirements.txt
-python -m unittest discover -p "test_*.py" -v
-python q3.py --seed 42 --noise-sd 0.5 --output results
+python -m unittest discover -s tests -p "test_*.py" -v
+python -m src.q3 --seed 42 --noise-sd 0.5 --output results
 ```
 
 The command writes `results/q3.csv`, `results/q3.json`, `results/q3_risks.png` and `results/q3_components.png`. No external data or interactive server is required. Nested prefixes of one 3,000-row generated sample match the original experiment design.
@@ -47,4 +47,4 @@ The command writes `results/q3.csv`, `results/q3.json`, `results/q3_risks.png` a
 
 ## Verification
 
-Five Q3 unit tests cover the analytical approximation formula, seed reproducibility, input validation, population decomposition, and a large-sample sanity check. The [Q1–Q6 verification workflow](.github/workflows/q1.yml) reruns the suite and generates the figures. The successful Q1–Q6 workflow execution was confirmed on commit `761d209` (run #27); check the [Actions page](https://github.com/andrea-bianco00/machine-learning-methods/actions) for newer runs.
+Five Q3 unit tests cover the analytical approximation formula, seed reproducibility, input validation, population decomposition, and a large-sample sanity check. The [Q1–Q6 verification workflow](../.github/workflows/q1.yml) reruns the suite and generates the figures. The successful Q1–Q6 workflow execution was confirmed on commit `761d209` (run #27); check the [Actions page](https://github.com/andrea-bianco00/machine-learning-methods/actions) for newer runs.
