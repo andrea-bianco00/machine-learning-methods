@@ -1,12 +1,11 @@
-name: Q1 verification
+name: Q1 and Q2 verification
 on:
   push:
     branches: [main]
   pull_request:
   workflow_dispatch:
-
 jobs:
-  verify-q1:
+  verify:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -18,15 +17,19 @@ jobs:
         run: python -m pip install -r requirements.txt
       - name: Unit tests
         run: python -m unittest discover -p 'test_*.py' -v
-      - name: Generate Q1 results and plots
+      - name: Reproduce Q1
         run: |
           python q1.py --output results/q1.json
           python q1_sweep.py --output results --repetitions 400 --seed 42
+      - name: Reproduce Q2
+        run: python q2.py --n 3000 --p 8 --noise-variance 0.5 --seed 42
       - name: Upload experiment artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: q1-experiment
+          name: q1-q2-experiments
           path: |
             results/q1.json
             results/q1_sweep.csv
             results/q1_*.png
+            results/q2.json
+            results/q2_signals.png
