@@ -47,4 +47,4 @@ The command writes `results/q3.csv`, `results/q3.json`, `results/q3_risks.png` a
 
 ## Verification
 
-Five Q3 unit tests cover the analytical approximation formula, seed reproducibility, input validation, population decomposition, and a large-sample sanity check. The [Q1–Q6 verification workflow](.github/workflows/q1.yml) reruns the suite and generates the figures. The successful Q1–Q6 workflow execution was confirmed on commit `761d209` (run #27); check the [Actions page](../../actions) for newer runs.
+Five Q3 unit tests cover the analytical approximation formula, seed reproducibility, input validation, population decomposition, and a large-sample sanity check. The [Q1–Q6 verification workflow](.github/workflows/q1.yml) reruns the suite and generates the figures. The successful Q1–Q6 workflow execution was confirmed on commit `761d209` (run #27); check the [Actions page](https://github.com/andrea-bianco00/machine-learning-methods/actions) for newer runs.
