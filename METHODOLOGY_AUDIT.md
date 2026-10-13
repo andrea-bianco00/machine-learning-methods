@@ -1,6 +1,6 @@
 # Methodology audit — Q1: expected excess risk
 
-**Status:** source-level audit completed for Q1; corrected simulation and clean-environment execution are pending. This document distinguishes the original notebook's derivation from the quantity actually computed in its code.
+**Status:** Q1's source-level audit, corrected simulation, tests and automated reproduction are implemented. The successful Q1–Q6 GitHub Actions run was confirmed at commit `761d209` (run #27). This document distinguishes the original notebook's derivation from the quantity actually computed in its code.
 
 ## Assignment
 
@@ -43,17 +43,13 @@ which is generally **not** `sigma² d/n`. Thus the original plots compare nonide
 
 For independent standard Gaussian features and an intercept, the distinction also affects finite-sample expectations. In particular, the unconditional expected squared parameter error need not equal the in-design excess risk.
 
-## Correction required
+## Implemented correction
 
-The reproducible Q1 implementation must explicitly calculate:
+The reconstructed [Q1 experiment](Q1_RESULTS.md) measures **in-design excess prediction risk** using `mean((Z @ (theta_hat-theta_star))**2)`, rather than treating squared coefficient error as the same quantity. The latter, `sum((theta_hat-theta_star)**2)`, is a distinct estimand and is not substituted for the former.
 
-1. **In-design excess prediction risk:** `mean((Z @ (theta_hat-theta_star))**2)`.
-2. **Squared parameter estimation error:** `sum((theta_hat-theta_star)**2)`, separately labelled, if shown.
-3. **Optional independent-test excess prediction risk:** evaluate on independently generated covariates; do not apply the in-design formula as an exact finite-sample identity to this different estimand.
+An optional independent-test excess prediction risk would require separately generated covariates and **must not** be assigned the same exact finite-sample formula without additional assumptions.
 
-The main figure should compare the Monte Carlo mean of item 1 against `sigma² d/n`, with uncertainty intervals, and show the effect of varying `n`, `p`, and `sigma`. The random generator should be explicit, with reproducible seeds and no global `np.random.seed` mutations.
-
-Use `np.linalg.lstsq` or an equivalent stable solver rather than explicitly inverting `Z'Z`. Tests must check shape/rank conditions, the exact projection identity on simulated data, and Monte Carlo agreement within a justified stochastic tolerance.
+The Q1 Monte Carlo sweep compares the sample mean of the corrected in-design quantity with `sigma² d/n` and includes approximate uncertainty intervals while varying sample size, dimension and noise. The implementation uses seed-controlled NumPy generators and a stable least-squares solver rather than an explicit inverse. The automated tests check the corrected numerical behavior; see [Q1 results](Q1_RESULTS.md) for exact commands.
 
 ## Interpretation and caveats
 
@@ -63,6 +59,6 @@ Use `np.linalg.lstsq` or an equivalent stable solver rather than explicitly inve
 - For `d >= n`, the full-rank OLS argument above does not apply as stated.
 - Monte Carlo results vary with the random seed and finite number of repetitions; they should not be reported as exact theoretical values.
 
-## Provenance and next step
+## Provenance and verification
 
-This audit is based on the original `Computer Class Andrea Bianco.ipynb` (Q1 theory and code) and the ENSAI assignment. The original notebook must be preserved separately; the correction belongs to the subsequently reconstructed version. No new simulation outputs have yet been claimed or published.
+This audit is based on the original `Computer Class Andrea Bianco.ipynb` (Q1 theory and code) and the ENSAI assignment. The original notebook and this subsequently reconstructed implementation are different artifacts. The corrected simulation is now executable with `q1.py` and `q1_sweep.py`; the [Q1–Q6 workflow](.github/workflows/q1.yml) reproduces its outputs and uploads figures and CSV/JSON as build artifacts. The passing run at commit `761d209` establishes that the automated checks executed successfully, not that every original-notebook claim has been independently proven.
