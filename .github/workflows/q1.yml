@@ -2,8 +2,12 @@ name: Q1–Q7 verification
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - 'public-figures/**'
   pull_request:
   workflow_dispatch:
+permissions:
+  contents: write
 jobs:
   verify:
     runs-on: ubuntu-latest
@@ -64,3 +68,16 @@ jobs:
             results/q7.json
             results/q7_optimization.csv
             results/q7_comparison.png
+
+      - name: Publish original figures for portfolio
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        run: |
+          mkdir -p public-figures
+          cp results/q2_signals.png results/q4_convergence.png results/q5_convergence.png results/q5_sensitivity.png results/q6_comparison.png results/q7_comparison.png public-figures/
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public-figures/
+          if ! git diff --cached --quiet; then
+            git commit -m "docs: publish reproducible experiment figures"
+            git push
+          fi
