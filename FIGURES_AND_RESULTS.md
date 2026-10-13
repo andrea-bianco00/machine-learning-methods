@@ -22,7 +22,7 @@ Artifacts are tied to a particular workflow run and are retained only for the du
 | Q5 | `q5_convergence.png` | Corrected zeroth-order versus first-order methods; note the log-scale objective | `q5.csv`, `q5.json` |
 | Q5 extension | `q5_sensitivity.png` | Effect of random-direction distribution and learning-rate scale; log-scale objective gap | `q5_sensitivity.csv`, `q5_sensitivity.json` |
 | Q6 | `q6_comparison.png` | Optimization curves and independent held-out test MSE across optimizer seeds | `q6_trajectories.csv`, `q6_runs.csv`, `q6.json` |
-| Q7 (bonus) | `q7_comparison.png` | ZSGD training log-loss and real-data held-out ROC-AUC | `q7_optimization.csv`, `q7.json` |
+| Q7 (bonus) | `q7_comparison.png` | ZSGD training log-loss, zoomed held-out ROC-AUC, and hadron false-positive rates | `q7_optimization.csv`, `q7.json` |
 
 ## Recreate everything
 
