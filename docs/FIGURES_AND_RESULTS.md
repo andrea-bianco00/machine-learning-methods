@@ -30,16 +30,16 @@ From the repository root with Python 3.11:
 
 ```bash
 python -m pip install -r requirements.txt
-python -m unittest discover -p "test_*.py" -v
-python q1.py --output results/q1.json
-python q1_sweep.py --output results --repetitions 400 --seed 42
-python q2.py --n 3000 --p 8 --noise-variance 0.5 --seed 42
-python q3.py --seed 42 --noise-sd 0.5 --output results
-python q4.py --budget 30000 --repeats 5 --data-seed 42 --sgd-seed 100 --output results
-python q5.py --budget 30000 --repeats 5 --seed 42 --h 0.01 --output results
-python q5_sensitivity.py --budget 30000 --repeats 5 --output results
-python q6.py --budget 120000 --repeats 5 --step-scale 0.03 --output results
-python q7.py --download --budget 200000 --repeats 3 --seed 42 --output results
+python -m unittest discover -s tests -p "test_*.py" -v
+python -m src.q1 --output results/q1.json
+python -m src.q1_sweep --output results --repetitions 400 --seed 42
+python -m src.q2 --n 3000 --p 8 --noise-variance 0.5 --seed 42
+python -m src.q3 --seed 42 --noise-sd 0.5 --output results
+python -m src.q4 --budget 30000 --repeats 5 --data-seed 42 --sgd-seed 100 --output results
+python -m src.q5 --budget 30000 --repeats 5 --seed 42 --h 0.01 --output results
+python -m src.q5_sensitivity --budget 30000 --repeats 5 --output results
+python -m src.q6 --budget 120000 --repeats 5 --step-scale 0.03 --output results
+python -m src.q7 --download --budget 200000 --repeats 3 --seed 42 --output results
 ```
 
 ## Reading plots correctly
